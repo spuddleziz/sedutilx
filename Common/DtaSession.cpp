@@ -377,12 +377,12 @@ DtaSession::start(OPAL_UID SP, vector<uint8_t> HostChallenge, vector<uint8_t> Si
     // w/o the timeout the session may wedge and require a power-cycle,
     // e.g., when interrupted by ^C. 60 seconds is inconveniently long,
     // but revert may require that long to complete.
-    if (d->isEprise()) {
-        cmd->addToken(OPAL_TOKEN::STARTNAME);
-        cmd->addToken("SessionTimeout");
-        cmd->addToken(60000);
-        cmd->addToken(OPAL_TOKEN::ENDNAME);
-    }
+    // if (d->isEprise()) {
+    //     cmd->addToken(OPAL_TOKEN::STARTNAME);
+    //     cmd->addToken("SessionTimeout");
+    //     cmd->addToken(60000);
+    //     cmd->addToken(OPAL_TOKEN::ENDNAME);
+    // }
 
     cmd->addToken(OPAL_TOKEN::ENDLIST); // ]  (Close Bracket)
     cmd->complete();
@@ -553,16 +553,16 @@ DtaSession::sendCommand(DtaCommand * cmd, DtaResponse & response)
 		LOG(E) << "response.h.cp.length= " << response.h.cp.length;
 		LOG(E) << "response.h.pkt.length= " << response.h.pkt.length;
 		LOG(E) << "response.h.subpkt.length= " << response.h.subpkt.length << endl; 
-        if (!((OPAL_TOKEN::ENDLIST == response.tokenIs(response.getTokenCount() - 1)) &&
-            (OPAL_TOKEN::STARTLIST == response.tokenIs(response.getTokenCount() - 5)))) {
-            // no method status so we hope we reported the error someplace else
-            LOG(E) << "Method Status missing";
-            return DTAERROR_NO_METHOD_STATUS;
-        }
-        if (OPALSTATUSCODE::SUCCESS != response.getUint8(response.getTokenCount() - 4)) {
-            LOG(E) << "method status code " <<
-                methodStatus(response.getUint8(response.getTokenCount() - 4));
-        }
+        // if (!((OPAL_TOKEN::ENDLIST == response.tokenIs(response.getTokenCount() - 1)) &&
+        //     (OPAL_TOKEN::STARTLIST == response.tokenIs(response.getTokenCount() - 5)))) {
+        //     // no method status so we hope we reported the error someplace else
+        //     LOG(E) << "Method Status missing";
+        //     return DTAERROR_NO_METHOD_STATUS;
+        // }
+        // if (OPALSTATUSCODE::SUCCESS != response.getUint8(response.getTokenCount() - 4)) {
+        //     LOG(E) << "method status code " <<
+        //         methodStatus(response.getUint8(response.getTokenCount() - 4));
+        // }
 		return DTAERROR_COMMAND_ERROR;
     }
     // if we get an endsession response return 0

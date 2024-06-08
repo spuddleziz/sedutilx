@@ -42,6 +42,7 @@ DtaSession::DtaSession(DtaDev * device)
 uint8_t
 DtaSession::start(OPAL_UID SP)
 {
+    LOG(D1) << "Entering DtaSession::startSession NULL PWD";
     return (start(SP, NULL, OPAL_UID::OPAL_UID_HEXFF));
 }
 

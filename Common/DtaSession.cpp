@@ -553,6 +553,16 @@ DtaSession::sendCommand(DtaCommand * cmd, DtaResponse & response)
 		LOG(E) << "response.h.cp.length= " << response.h.cp.length;
 		LOG(E) << "response.h.pkt.length= " << response.h.pkt.length;
 		LOG(E) << "response.h.subpkt.length= " << response.h.subpkt.length << endl; 
+        if (!((OPAL_TOKEN::ENDLIST == response.tokenIs(response.getTokenCount() - 1)) &&
+            (OPAL_TOKEN::STARTLIST == response.tokenIs(response.getTokenCount() - 5)))) {
+            // no method status so we hope we reported the error someplace else
+            LOG(E) << "Method Status missing";
+            return DTAERROR_NO_METHOD_STATUS;
+        }
+        if (OPALSTATUSCODE::SUCCESS != response.getUint8(response.getTokenCount() - 4)) {
+            LOG(E) << "method status code " <<
+                methodStatus(response.getUint8(response.getTokenCount() - 4));
+        }
 		return DTAERROR_COMMAND_ERROR;
     }
     // if we get an endsession response return 0

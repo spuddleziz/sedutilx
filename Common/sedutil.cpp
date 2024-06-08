@@ -188,6 +188,7 @@ int main(int argc, char * argv[])
     break;
   case sedutiloption::listLockingRanges:
     LOG(D) << "List Locking Ranges " << argv[opts.device];
+    LOG(D1) << "PASSWORD: " << argv[opts.password];
     return (d->listLockingRanges(argv[opts.password], -1));
     break;
   case sedutiloption::listLockingRange:

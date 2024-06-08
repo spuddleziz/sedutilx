@@ -50,7 +50,7 @@ DtaSession::start(OPAL_UID SP)
 uint8_t
 DtaSession::start(OPAL_UID SP, char * password, OPAL_UID SignAuthority)
 {
-    LOG(D1) << "Entering DtaSession::startSession OPl_UID";
+    LOG(D1) << "Entering DtaSession::startSession OPl_UID char";
     vector<uint8_t> auth;
     auth.push_back(OPAL_SHORT_ATOM::BYTESTRING8);
     for (int i = 0; i < 8; i++) {
@@ -67,7 +67,7 @@ DtaSession::start(OPAL_UID SP, char * password, OPAL_UID SignAuthority)
 uint8_t
 DtaSession::start(OPAL_UID SP, vector<uint8_t> HostChallenge, OPAL_UID SignAuthority)
 {
-    LOG(D1) << "Entering DtaSession::startSession OPl_UID";
+    LOG(D1) << "Entering DtaSession::startSession OPl_UID vec";
     vector<uint8_t> auth;
     auth.push_back(OPAL_SHORT_ATOM::BYTESTRING8);
     for (int i = 0; i < 8; i++) {
@@ -292,7 +292,7 @@ DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
     cmd->addToken(105); // HostSessionID : sessionnumber
     cmd->addToken(SP); // SPID : SP
     cmd->addToken(OPAL_TINY_ATOM::UINT_01); // write
-    if ((NULL != password)) {
+    if (NULL != password) {
         cmd->addToken(OPAL_TOKEN::STARTNAME);
         cmd->addToken(OPAL_TINY_ATOM::UINT_00);
         if (hashPwd) {

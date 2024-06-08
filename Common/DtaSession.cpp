@@ -277,7 +277,7 @@ DtaSession::unistart(OPAL_UID SP, vector<uint8_t> HostChallenge, vector<uint8_t>
 uint8_t
 DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
 {
-    LOG(D1) << "Entering DtaSession::startSession vector";
+    LOG(D1) << "Entering DtaSession::startSession char";
     vector<uint8_t> hash;
     lastRC = 0;
 

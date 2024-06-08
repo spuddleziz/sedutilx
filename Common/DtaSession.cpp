@@ -292,8 +292,9 @@ DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
     cmd->addToken(105); // HostSessionID : sessionnumber
     cmd->addToken(SP); // SPID : SP
     cmd->addToken(OPAL_TINY_ATOM::UINT_01); // write
+    string pwd(password);
     LOG(D1) << "Checking pass DtaSession::startSession ";
-    LOG(D1) << "PASSWORD: " << *password;
+    LOG(D1) << "PASSWORD: " << pwd;
     if (NULL != password) {
         cmd->addToken(OPAL_TOKEN::STARTNAME);
         cmd->addToken(OPAL_TINY_ATOM::UINT_00);
@@ -302,7 +303,7 @@ DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
             DtaHashPwd(hash, password, d);
             cmd->addToken(hash);
         } else if (useHexPass) {
-            LOG(D1) << "Using HexPass in DtaSession::startSession " << *password;
+            LOG(D1) << "Using HexPass in DtaSession::startSession " << pwd;
             hash.clear();
 			hexStringToByteArray(hash, password);
 			cmd->addToken(hash);

@@ -788,7 +788,7 @@ uint8_t DtaDevEnterprise::listLockingRanges(char * password, int16_t rangeid, ui
 	int one_succeeded = 0;
 	char *pwd = NULL;
 
-	// if (NULL == password) { LOG(E) << "password NULL"; }
+	if (NULL == password) { LOG(E) << "password NULL"; }
     string defaultPassword;
 	if ((password == NULL) || (*password == '\0')) {
 

@@ -296,7 +296,7 @@ DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
     string pwd(password);
     LOG(D1) << "Checking pass DtaSession::startSession ";
     LOG(D1) << "PASSWORD: " << pwd;
-    if (NULL != password) {
+    if ((NULL != password) && (!d->isEprise())) {
         cmd->addToken(OPAL_TOKEN::STARTNAME);
         cmd->addToken(OPAL_TINY_ATOM::UINT_00);
         if (hashPwd) {

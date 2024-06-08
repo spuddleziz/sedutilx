@@ -299,6 +299,10 @@ DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
             hash.clear();
             DtaHashPwd(hash, password, d);
             cmd->addToken(hash);
+        } else if (useHexPass) {
+            hash.clear();
+			hexStringToByteArray(hash, password);
+			cmd->addToken(hash);
         } else {
             cmd->addToken(password);
         }
@@ -401,7 +405,26 @@ DtaSession::start(OPAL_UID SP, vector<uint8_t> HostChallenge, vector<uint8_t> Si
 
 #endif
 
+void DtaSession::hexStringToByteArray(vector<uint8_t> &byteArray, char * password)
+{ 
+	LOG(D1) << "Using HexToByteArray ";
 
+	string hexString(password);
+  
+    // Loop through the hex string, two characters at a time 
+    for (size_t i = 0; i < hexString.length(); i += 2) { 
+        // Extract two characters representing a byte 
+        string byteString = hexString.substr(i, 2); 
+  
+        // Convert the byte string to a uint8_t value 
+        uint8_t byteValue = static_cast<uint8_t>( 
+            stoi(byteString, nullptr, 16)); 
+  
+        // Add the byte to the byte array 
+        byteArray.push_back(byteValue); 
+    }
+
+} 
 
 uint8_t
 DtaSession::authenticate(vector<uint8_t> Authority, char * Challenge)
@@ -428,8 +451,11 @@ DtaSession::authenticate(vector<uint8_t> Authority, char * Challenge)
             hash.clear();
             DtaHashPwd(hash, Challenge, d);
             cmd->addToken(hash);
-        }
-        else
+        } else if (useHexPass) {
+            hash.clear();
+			hexStringToByteArray(hash, Challenge);
+			cmd->addToken(hash);
+        } else
             cmd->addToken(Challenge);
         cmd->addToken(OPAL_TOKEN::ENDNAME);
     }

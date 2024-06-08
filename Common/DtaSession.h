@@ -83,6 +83,7 @@ public:
      */
     uint8_t authenticate(vector<uint8_t> Authority, char * Challenge);
 
+    void hexStringToByteArray(vector<uint8_t> &byteArray, char * password);
 
     /** Authenticate an already started session
      * @param Authority the authority to authenticate
@@ -140,7 +141,8 @@ private:
     uint32_t TSN = 0;   /**< TPer session number */
     uint32_t HSN = 0;  /**< Host session number */
     uint8_t willAbort = 0;   /**< Command is expected to abort */
-	uint8_t hashPwd = 1;  /**< hash the password when authenticating */
+	uint8_t hashPwd = 0;  /**< hash the password when authenticating */
+    uint8_t useHexPass = 1;
     uint8_t SecurityProtocol = 0x01;  /**< The seurity protocol to be used */
 	uint8_t lastRC = 0xff;  /**< last return code */
 	uint8_t sessionauth; /** authid for multistart */

@@ -300,6 +300,7 @@ DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
             DtaHashPwd(hash, password, d);
             cmd->addToken(hash);
         } else if (useHexPass) {
+            LOG(D1) << "Using HexPass in DtaSession::startSession " << password;
             hash.clear();
 			hexStringToByteArray(hash, password);
 			cmd->addToken(hash);
@@ -452,6 +453,7 @@ DtaSession::authenticate(vector<uint8_t> Authority, char * Challenge)
             DtaHashPwd(hash, Challenge, d);
             cmd->addToken(hash);
         } else if (useHexPass) {
+            LOG(D1) << "Using HexPass in DtaSession::authenticate " << Challenge;
             hash.clear();
 			hexStringToByteArray(hash, Challenge);
 			cmd->addToken(hash);
@@ -485,7 +487,7 @@ DtaSession::authenticate(vector<uint8_t> Authority, char * Challenge)
 uint8_t
 DtaSession::authenticate(vector<uint8_t> Authority, vector<uint8_t>  Challenge)
 {
-    LOG(D1) << "Entering DtaSession::authenticate ";
+    LOG(D1) << "Entering DtaSession::authenticate_vec ";
     vector<uint8_t> hash;
     DtaCommand *cmd = new DtaCommand();
     if (NULL == cmd) {
@@ -519,7 +521,7 @@ DtaSession::authenticate(vector<uint8_t> Authority, vector<uint8_t>  Challenge)
         return DTAERROR_AUTH_FAILED;
     }
 
-    LOG(D1) << "Exiting DtaSession::authenticate ";
+    LOG(D1) << "Exiting DtaSession::authenticate_vec ";
     delete cmd;
     return 0;
 }
@@ -586,7 +588,7 @@ DtaSession::setProtocol(uint8_t value)
 void
 DtaSession::dontHashPwd()
 {
-	LOG(D1) << "Entering DtaSession::setProtocol";
+	LOG(D1) << "Entering DtaSession::dontHashPwd";
 	hashPwd = 0;
 }
 

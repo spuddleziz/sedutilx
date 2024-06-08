@@ -293,7 +293,7 @@ DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
     cmd->addToken(SP); // SPID : SP
     cmd->addToken(OPAL_TINY_ATOM::UINT_01); // write
     LOG(D1) << "Checking pass DtaSession::startSession ";
-    LOG(D1) << "PASSWORD: " << password;
+    LOG(D1) << "PASSWORD: " << *password;
     if (NULL != password) {
         cmd->addToken(OPAL_TOKEN::STARTNAME);
         cmd->addToken(OPAL_TINY_ATOM::UINT_00);
@@ -302,7 +302,7 @@ DtaSession::start(OPAL_UID SP, char * password, vector<uint8_t> SignAuthority)
             DtaHashPwd(hash, password, d);
             cmd->addToken(hash);
         } else if (useHexPass) {
-            LOG(D1) << "Using HexPass in DtaSession::startSession " << password;
+            LOG(D1) << "Using HexPass in DtaSession::startSession " << *password;
             hash.clear();
 			hexStringToByteArray(hash, password);
 			cmd->addToken(hash);
@@ -413,6 +413,8 @@ void DtaSession::hexStringToByteArray(vector<uint8_t> &byteArray, char * passwor
 	LOG(D1) << "Using HexToByteArray ";
 
 	string hexString(password);
+
+    LOG(D1) << "PASSWORD: " << hexString;
   
     // Loop through the hex string, two characters at a time 
     for (size_t i = 0; i < hexString.length(); i += 2) { 
